@@ -1,56 +1,54 @@
-console.log("APP STARTED ✅");
+console.log("✅ App lastet");
 
-// ✅ ADMIN TOGGLE (GARANTERT FUNKSJON)
+// ✅ ADMIN FUNKSJON (GARANTERT)
 function toggleAdmin() {
   const panel = document.getElementById("adminPanel");
   panel.classList.toggle("hidden");
-
-  console.log("Admin clicked ✅");
 }
 
-const players = {};
-const db = window.firebase ? firebase.database() : null;
+// ✅ DATA (LAGRER LOKALT FOR TEST)
+let players = JSON.parse(localStorage.getItem("players") || "{}");
 
+// ✅ LEGG TIL SPILLER
 function addPlayer() {
-  const name = document.getElementById("newPlayerName").value;
-  let pin = document.getElementById("newPlayerPin").value;
+  let name = document.getElementById("name").value;
+  let pin = document.getElementById("pin").value;
+
+  if (!name) {
+    alert("Skriv navn!");
+    return;
+  }
 
   if (!pin) {
     pin = Math.floor(1000 + Math.random() * 9000);
   }
 
-  const id = "player_" + Date.now();
+  let id = "player_" + Date.now();
 
-  if (db) {
-    db.ref("players/" + id).set({
-      name: name,
-      pin: pin
-    });
-  }
+  players[id] = {
+    name: name,
+    pin: pin
+  };
 
-  alert(`Spiller lagt til ✅ \n${name} | PIN: ${pin}`);
+  localStorage.setItem("players", JSON.stringify(players));
+
+  alert(`✅ Lagret:\n${name} (PIN: ${pin})`);
+
+  render();
 }
 
-function renderAdmin() {
-  const div = document.getElementById("adminList");
+// ✅ VIS SPILLERE
+function render() {
+  let div = document.getElementById("playerList");
   div.innerHTML = "";
 
-  Object.keys(players).forEach(id => {
-    const p = players[id];
-
-    let row = document.createElement("div");
-    row.innerHTML = `
+  Object.entries(players).forEach(([id, p]) => {
+    let el = document.createElement("div");
+    el.innerHTML = `
       ${p.name} (PIN: ${p.pin})
-      <button onclick="copyLink('${id}')">Kopier</button>
     `;
-
-    div.appendChild(row);
+    div.appendChild(el);
   });
 }
 
-function copyLink(id) {
-  const url = location.origin + location.pathname + "?spiller=" + id;
-  navigator.clipboard.writeText(url);
-  alert("Link kopiert ✅");
-}
-``
+render();

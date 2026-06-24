@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pakkliste V6 FIX 2026</title>
-<link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakkliste V6 Clean</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,31 +13,22 @@
   <h1>🏌️ Pakkliste Lag-NM</h1>
 
   <!-- ✅ ADMIN BUTTON FIX -->
-  <button class="secondary"
-    onclick="toggleAdmin()">
-    Admin
-  </button>
+  <button onclick="toggleAdmin()">Admin</button>
 </header>
 
-<main class="container">
+<main>
 
-  <h2>Velg spiller</h2>
-  <select id="playerSelect"></select>
-
-  <div id="checklist"></div>
+  <h2>Spillere</h2>
+  <div id="playerList"></div>
 
   <!-- ✅ ADMIN PANEL -->
-  <div id="adminPanel" class="admin hidden">
+  <div id="adminPanel" class="hidden">
     <h2>🔐 Admin</h2>
 
-    <div>
-      <input id="newPlayerName" placeholder="Navn">
-      <input id="newPlayerPin" placeholder="PIN">
-      <button onclick="addPlayer()">Legg til spiller</button>
-    </div>
+    <input id="name" placeholder="Navn">
+    <input id="pin" placeholder="PIN">
 
-    <div id="adminList"></div>
-
+    <button onclick="addPlayer()">Legg til spiller</button>
   </div>
 
 </main>
@@ -46,4 +37,3 @@
 
 </body>
 </html>
-``

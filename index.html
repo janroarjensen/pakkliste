@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pakkliste Lag-NM Golf - PIN og spillerlenker</title>
+  <title>Pakkliste Lag-NM Golf - V10</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header class="topbar">
   <div>
     <h1>🏌️ Pakkliste Lag-NM</h1>
-    <p>Firebase + PIN + spillerlenker</p>
+    <p>V10 • bedre UX • Firebase • PIN • admin via UID</p>
   </div>
   <button onclick="toggleAdmin()">Admin</button>
 </header>
 
 <main class="container">
   <div id="status" class="status">Starter app...</div>
+  <div id="toast" class="toast hidden"></div>
 
   <section id="directBox" class="direct hidden">
     <div>
@@ -45,30 +45,58 @@
   </section>
 
   <section id="adminPanel" class="card admin hidden">
-    <h2>🔐 Admin</h2>
-
-    <div class="adminGrid">
+    <div class="sectionHeader">
       <div>
-        <h3>Legg til spiller</h3>
-        <input id="name" placeholder="Navn på spiller">
-        <input id="pin" placeholder="PIN (valgfritt)">
-        <button onclick="addPlayer()">Legg til spiller</button>
+        <h2>🔐 Admin</h2>
+        <div id="authInfo" class="hint">Sjekker innlogging...</div>
       </div>
+      <button class="secondary" onclick="logoutAdmin()">Logg ut</button>
+    </div>
 
-      <div>
-        <h3>Legg til pakkepunkt</h3>
-        <input id="newItem" placeholder="F.eks. Badetøy">
-        <button onclick="addItem()">Legg til punkt</button>
+    <div id="loginBox" class="loginBox">
+      <h3>Admin-innlogging</h3>
+      <p class="hint">Logg inn med Firebase Authentication. UID-en må ligge under <code>/admins/UID = true</code>.</p>
+      <input id="emailInput" type="email" placeholder="Admin e-post">
+      <input id="passwordInput" type="password" placeholder="Passord">
+      <div class="buttonRow">
+        <button onclick="loginAdmin()">Logg inn admin</button>
+        <button class="secondary" onclick="loginAnon()">Bruk uten admin</button>
       </div>
     </div>
 
-    <hr>
+    <div id="notAdminBox" class="notice hidden">
+      Du er innlogget, men denne UID-en er ikke admin. Kopier UID-en fra feltet over og legg den inn i Firebase under <code>admins/UID = true</code>.
+    </div>
 
-    <h3>Admin - spillere</h3>
-    <div id="adminPlayers"></div>
+    <div id="adminTools" class="hidden">
+      <div class="adminGrid">
+        <div>
+          <h3>Legg til spiller</h3>
+          <input id="name" placeholder="Navn på spiller">
+          <input id="pin" placeholder="PIN (valgfritt)">
+          <button onclick="addPlayer()">Legg til spiller</button>
+        </div>
 
-    <h3>Admin - pakkepunkter</h3>
-    <div id="adminItems"></div>
+        <div>
+          <h3>Legg til pakkepunkt</h3>
+          <input id="newItem" placeholder="F.eks. Badetøy">
+          <button onclick="addItem()">Legg til punkt</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="buttonRow">
+        <button class="secondary" onclick="copyAllLinks()">Kopier alle lenker</button>
+        <button class="secondary" onclick="seedDefaultItemsIfEmpty(true)">Legg inn standardliste</button>
+      </div>
+
+      <h3>Admin - spillere</h3>
+      <div id="adminPlayers"></div>
+
+      <h3>Admin - pakkepunkter</h3>
+      <div id="adminItems"></div>
+    </div>
   </section>
 </main>
 
@@ -85,11 +113,10 @@
   </div>
 </div>
 
-<footer>
-  Lag-NM Golf pakkeliste • GitHub Pages + Firebase
-</footer>
+<footer>Lag-NM Golf pakkeliste • GitHub Pages + Firebase</footer>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
 <script src="app.js"></script>

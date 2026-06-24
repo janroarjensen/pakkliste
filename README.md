@@ -1,8 +1,6 @@
-# Pakkliste Lag-NM Golf - V8 PIN og spillerlenker
+# Pakkliste Lag-NM Golf - V10 bedre UX
 
-Dette bygger videre på versjonen der Admin-knappen og Firebase fungerer.
-
-## GitHub-filer
+## GitHub root
 Legg disse i root:
 - index.html
 - app.js
@@ -10,13 +8,15 @@ Legg disse i root:
 - firebase.js
 - README.md
 
-## Firebase rules
-Lim inn `database.rules.json` i Firebase Console → Realtime Database → Rules.
+## Firebase
+- database.rules.json → Realtime Database → Rules
+- seed-admins.json → Realtime Database → Data → Import JSON
 
-## Nytt i denne versjonen
-- PIN-lås på spillerliste
-- Spillerlenke via ?spiller=PLAYER_ID
-- Kopier spillerlenke med PIN
-- Endre navn/PIN i admin
-- Generer ny PIN i admin
-- Admin-knappen er fortsatt enkel og stabil: onclick="toggleAdmin()"
+## Viktig
+V10 fjerner irriterende alert-popup ved Firebase-feil og viser heller toast/statusmelding nederst på siden.
+Admin-knappen er fortsatt stabil med onclick="toggleAdmin()".
+
+## Firebase Auth
+Aktiver:
+- Email/Password
+- Anonymous

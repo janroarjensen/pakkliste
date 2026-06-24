@@ -6,10 +6,13 @@ const firebaseConfig = {
 };
 
 let db = null;
+let auth = null;
 
 try {
   firebase.initializeApp(firebaseConfig);
   db = firebase.database();
+  auth = firebase.auth();
+  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   console.log("✅ Firebase koblet til");
 } catch (error) {
   console.error("❌ Firebase-feil:", error);

@@ -1,35 +1,22 @@
-# Pakkliste Lag-NM Golf - Firebase stabil
+# Pakkliste Lag-NM Golf - V8 PIN og spillerlenker
 
-Dette er neste steg etter clean-versjonen der Admin-knappen fungerer.
+Dette bygger videre på versjonen der Admin-knappen og Firebase fungerer.
 
-## Filer til GitHub
-Legg disse i root/samme mappe:
-
+## GitHub-filer
+Legg disse i root:
 - index.html
 - app.js
 - style.css
 - firebase.js
+- README.md
 
-## Firebase
-Lim inn `database.rules.json` i:
-Firebase Console → Realtime Database → Rules
+## Firebase rules
+Lim inn `database.rules.json` i Firebase Console → Realtime Database → Rules.
 
-Dette er åpne testregler:
-```json
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
-```
-
-## Viktig
-Admin-knappen bruker fortsatt enkel `onclick="toggleAdmin()"` og er ikke avhengig av Firebase.
-
-## Test
-1. Last opp filene til GitHub
-2. Åpne GitHub Pages
-3. Trykk Admin
-4. Legg til spiller
-5. Sjekk at spilleren dukker opp i Firebase Realtime Database
+## Nytt i denne versjonen
+- PIN-lås på spillerliste
+- Spillerlenke via ?spiller=PLAYER_ID
+- Kopier spillerlenke med PIN
+- Endre navn/PIN i admin
+- Generer ny PIN i admin
+- Admin-knappen er fortsatt enkel og stabil: onclick="toggleAdmin()"

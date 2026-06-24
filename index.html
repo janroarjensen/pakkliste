@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pakkliste Lag-NM Golf - Firebase stabil</title>
+  <title>Pakkliste Lag-NM Golf - PIN og spillerlenker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,13 +11,21 @@
 <header class="topbar">
   <div>
     <h1>🏌️ Pakkliste Lag-NM</h1>
-    <p>Stabil versjon med Firebase</p>
+    <p>Firebase + PIN + spillerlenker</p>
   </div>
   <button onclick="toggleAdmin()">Admin</button>
 </header>
 
 <main class="container">
   <div id="status" class="status">Starter app...</div>
+
+  <section id="directBox" class="direct hidden">
+    <div>
+      <strong>Spillerlenke aktiv</strong><br>
+      <span>Du ser direkte pakkeliste for valgt spiller.</span>
+    </div>
+    <button onclick="showAllPlayers()">Vis alle spillere</button>
+  </section>
 
   <section class="card">
     <h2>Spillere</h2>
@@ -26,7 +34,13 @@
   </section>
 
   <section class="card">
-    <h2>Pakkliste</h2>
+    <div class="sectionHeader">
+      <h2>Pakkliste</h2>
+      <div class="buttonRow">
+        <button onclick="copySelectedPlayerLink()">Kopier spillerlenke</button>
+        <button onclick="lockSelectedPin()">Lås PIN</button>
+      </div>
+    </div>
     <div id="packingList"></div>
   </section>
 
@@ -58,8 +72,21 @@
   </section>
 </main>
 
+<div id="pinModal" class="modal hidden">
+  <div class="modalCard">
+    <h2>🔒 Skriv PIN</h2>
+    <p id="pinText">Denne spillerlisten er beskyttet med PIN.</p>
+    <input id="pinInput" inputmode="numeric" placeholder="PIN">
+    <div class="buttonRow">
+      <button onclick="unlockPin()">Åpne</button>
+      <button class="secondary" onclick="closePinModal()">Avbryt</button>
+    </div>
+    <p class="hint">PIN huskes på denne enheten til du trykker “Lås PIN”.</p>
+  </div>
+</div>
+
 <footer>
-  Lag-NM Golf pakkliste • GitHub Pages + Firebase
+  Lag-NM Golf pakkeliste • GitHub Pages + Firebase
 </footer>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>

@@ -15,22 +15,9 @@ body {
   gap: 12px;
 }
 
-.topbar h1 {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-.topbar p {
-  margin: 4px 0 0;
-  opacity: .9;
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
+.topbar h1 { margin: 0; font-size: 1.3rem; }
+.topbar p { margin: 4px 0 0; opacity: .9; }
+.container { max-width: 900px; margin: 0 auto; padding: 16px; }
 .card {
   background: white;
   border: 1px solid #dfe8e3;
@@ -39,7 +26,6 @@ body {
   margin-bottom: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,.05);
 }
-
 button {
   padding: 10px 12px;
   background: #176b4d;
@@ -49,11 +35,8 @@ button {
   cursor: pointer;
   font-weight: bold;
 }
-
-button.danger {
-  background: #c62828;
-}
-
+button.secondary { background: #e9f1ed; color: #176b4d; border: 1px solid #cfe1d7; }
+button.danger { background: #c62828; }
 input, select {
   width: 100%;
   padding: 10px;
@@ -62,36 +45,36 @@ input, select {
   border-radius: 8px;
   font-size: 1rem;
 }
-
-.hidden {
-  display: none;
-}
-
-.status {
+.hidden { display: none !important; }
+.status, .direct {
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 12px;
   background: #fff8e1;
   border: 1px solid #ffe0a3;
 }
-
-.status.ok {
+.status.ok { background: #e8f5e9; border-color: #b7dfbd; }
+.status.warn { background: #fff8e1; border-color: #ffe0a3; }
+.direct {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #e8f5e9;
   border-color: #b7dfbd;
 }
-
-.status.warn {
-  background: #fff8e1;
-  border-color: #ffe0a3;
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
 }
-
+.buttonRow { display: flex; gap: 8px; flex-wrap: wrap; }
 .playerInfo {
   margin-top: 10px;
   padding: 10px;
   background: #eef6f0;
   border-radius: 10px;
 }
-
 .packItem {
   display: flex;
   align-items: center;
@@ -102,23 +85,9 @@ input, select {
   padding: 12px;
   margin: 8px 0;
 }
-
-.packItem input {
-  width: auto;
-  transform: scale(1.25);
-}
-
-.packItem.done {
-  background: #e8f5e9;
-  text-decoration: line-through;
-}
-
-.adminGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
+.packItem input { width: auto; transform: scale(1.25); }
+.packItem.done { background: #e8f5e9; text-decoration: line-through; }
+.adminGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .adminRow {
   display: flex;
   justify-content: space-between;
@@ -130,20 +99,27 @@ input, select {
   border-radius: 8px;
   margin: 6px 0;
 }
-
-footer {
-  text-align: center;
-  color: #66736d;
-  padding: 20px;
+.adminRow.playerEdit { display: grid; grid-template-columns: 1fr 90px auto auto auto auto; }
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 99;
 }
-
-@media (max-width: 700px) {
-  .topbar, .adminGrid, .adminRow {
-    display: block;
-  }
-
-  .topbar button, .adminRow button {
-    margin-top: 8px;
-    width: 100%;
-  }
+.modalCard {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  width: min(420px, 100%);
+  box-shadow: 0 16px 40px rgba(0,0,0,.25);
+}
+.hint { color: #66736d; font-size: .9rem; }
+footer { text-align: center; color: #66736d; padding: 20px; }
+@media (max-width: 760px) {
+  .topbar, .adminGrid, .adminRow, .adminRow.playerEdit, .direct, .sectionHeader { display: block; }
+  .topbar button, .adminRow button, .buttonRow button { margin-top: 8px; width: 100%; }
 }

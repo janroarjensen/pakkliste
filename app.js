@@ -1,10 +1,6 @@
-let players = {};
-let items = {};
-let checks = {};
+let players={},items={},checks={};
 
-function toggleAdmin(){
- document.getElementById("adminPanel").classList.toggle("hidden");
-}
+function toggleAdmin(){document.getElementById("adminPanel").classList.toggle("hidden");}
 
 function addPlayer(){
  const id="p_"+Date.now();
@@ -12,16 +8,26 @@ function addPlayer(){
  render();
 }
 
-function importList(){
- const lines=document.getElementById("importBox").value.split("
-");
- lines.forEach(l=>{
+function importText(){
+ const text=document.getElementById("importBox").value;
+ text.split("
+").forEach(l=>{
   if(l.trim()){
     const id="i_"+Date.now()+Math.random();
     items[id]={name:l.trim()};
   }
  });
  render();
+}
+
+function exportData(){
+ const data={players,items,checks};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="backup.json";
+ a.click();
 }
 
 function getProgress(pid){
@@ -38,37 +44,35 @@ function toggleCheck(pid,iid,val){
 }
 
 function render(){
- let pDiv=document.getElementById("playerList");
+ const pDiv=document.getElementById("playerList");
  pDiv.innerHTML="";
 
  Object.entries(players).forEach(([pid,p])=>{
-   let div=document.createElement("div");
+  const div=document.createElement("div");
+  const prog=getProgress(pid);
 
-   let prog=getProgress(pid);
+  div.innerHTML=`<h3>${p.name}</h3>
+  <div class="bar"><div class="fill" style="width:${prog}%"></div></div>
+  ${prog}%`;
 
-   div.innerHTML=`<h3>${p.name}</h3>
-   <div class="bar"><div class="fill" style="width:${prog}%"></div></div>
-   ${prog}%`;
+  Object.entries(items).forEach(([iid,it])=>{
+   const chk=checks[pid]?.[iid]||false;
+   const row=document.createElement("div");
+   row.innerHTML=`<input type="checkbox" ${chk?'checked':''} onchange="toggleCheck('${pid}','${iid}',this.checked)">${it.name}`;
+   div.appendChild(row);
+  });
 
-   Object.entries(items).forEach(([iid,it])=>{
-     let chk=checks[pid]?.[iid]||false;
-     let row=document.createElement("div");
-     row.innerHTML=`<input type="checkbox" ${chk?'checked':''}
-       onchange="toggleCheck('${pid}','${iid}',this.checked)">${it.name}`;
-     div.appendChild(row);
-   });
-
-   pDiv.appendChild(div);
+  pDiv.appendChild(div);
  });
 
  renderAdmin();
 }
 
 function renderAdmin(){
- let a=document.getElementById("adminPlayers");
+ const a=document.getElementById("adminPlayers");
  a.innerHTML="";
  Object.entries(players).forEach(([id,p])=>{
-  let d=document.createElement("div");
+  const d=document.createElement("div");
   d.textContent=p.name+" "+getProgress(id)+"%";
   a.appendChild(d);
  });

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pakkliste V11</title>
+<title>Pakkliste PRO V11</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,11 +13,12 @@
 <div id="adminPanel" class="hidden">
 <h2>Admin</h2>
 <input id="name" placeholder="Navn">
-<button onclick="addPlayer()">Legg til</button>
+<button onclick="addPlayer()">Legg til spiller</button>
 
 <h3>Importer pakkeliste</h3>
-<textarea id="importBox" placeholder="En per linje"></textarea>
-<button onclick="importList()">Importer</button>
+<textarea id="importBox" placeholder="En per linje..."></textarea>
+<button onclick="importText()">Importer</button>
+<button onclick="exportData()">Export</button>
 
 <div id="adminPlayers"></div>
 </div>

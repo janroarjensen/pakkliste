@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakkliste V5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🏌️ Pakkliste Lag-NM</h1>
+
+<div id="pinBox" class="hidden">
+  <h3>🔒 PIN nødvendig</h3>
+  <input id="pinInput" placeholder="Skriv PIN">
+  <button onclick="unlock()">OK</button>
+</div>
+
+<select id="playerSelect"></select>
+<div id="list"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

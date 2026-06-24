@@ -1,153 +1,77 @@
-console.log("✅ App OK - V10 FIXED");
-
-// --- STATE ---
 let players = {};
 let items = {};
 let checks = {};
-let admins = {};
-let currentUser = null;
-let isAdmin = false;
 
-// --- HELPERS ---
-function el(id) {
-  return document.getElementById(id);
+function toggleAdmin(){
+ document.getElementById("adminPanel").classList.toggle("hidden");
 }
 
-function setStatus(text, type = "") {
-  const box = el("status");
-  if (!box) return;
-  box.textContent = text;
-  box.className = "status " + type;
+function addPlayer(){
+ const id="p_"+Date.now();
+ players[id]={name:document.getElementById("name").value};
+ render();
 }
 
-function showToast(msg, type = "ok") {
-  const box = el("toast");
-  if (!box) return;
-
-  box.textContent = msg;
-  box.className = "toast " + type;
-  box.classList.remove("hidden");
-
-  setTimeout(() => box.classList.add("hidden"), 3000);
-}
-
-// --- ADMIN ---
-function updateAdminStatus() {
-  if (!currentUser) {
-    isAdmin = false;
-    return;
+function importList(){
+ const lines=document.getElementById("importBox").value.split("
+");
+ lines.forEach(l=>{
+  if(l.trim()){
+    const id="i_"+Date.now()+Math.random();
+    items[id]={name:l.trim()};
   }
-
-  isAdmin = admins[currentUser.uid] === true;
+ });
+ render();
 }
 
-function requireAdmin() {
-  if (!isAdmin) {
-    showToast("Ikke admin-tilgang", "warn");
-    return false;
-  }
-  return true;
+function getProgress(pid){
+ const total=Object.keys(items).length;
+ if(total===0)return 0;
+ const done=Object.values(checks[pid]||{}).filter(v=>v).length;
+ return Math.round(done/total*100);
 }
 
-function toggleAdmin() {
-  el("adminPanel").classList.toggle("hidden");
+function toggleCheck(pid,iid,val){
+ checks[pid]=checks[pid]||{};
+ checks[pid][iid]=val;
+ render();
 }
 
-// --- FIXEN ER HER 👇 ---
-function write(path, value, adminOnly = false) {
+function render(){
+ let pDiv=document.getElementById("playerList");
+ pDiv.innerHTML="";
 
-  // 🔥 STOPP før Firebase er klar (fikser feilen din)
-  if (!currentUser) {
-    console.log("⏳ Venter på auth...");
-    return;
-  }
+ Object.entries(players).forEach(([pid,p])=>{
+   let div=document.createElement("div");
 
-  // 🔐 Krev admin hvis nødvendig
-  if (adminOnly && !requireAdmin()) return;
+   let prog=getProgress(pid);
 
-  if (db) {
-    db.ref(path)
-      .set(value)
-      .then(() => {
-        if (adminOnly) showToast("Lagret ✅");
-      })
-      .catch(err => {
-        console.error(err);
+   div.innerHTML=`<h3>${p.name}</h3>
+   <div class="bar"><div class="fill" style="width:${prog}%"></div></div>
+   ${prog}%`;
 
-        if (err.code === "PERMISSION_DENIED") {
-          showToast("Ingen tilgang (ikke admin)", "warn");
-        } else {
-          showToast("Firebase-feil", "warn");
-        }
-      });
-  }
+   Object.entries(items).forEach(([iid,it])=>{
+     let chk=checks[pid]?.[iid]||false;
+     let row=document.createElement("div");
+     row.innerHTML=`<input type="checkbox" ${chk?'checked':''}
+       onchange="toggleCheck('${pid}','${iid}',this.checked)">${it.name}`;
+     div.appendChild(row);
+   });
+
+   pDiv.appendChild(div);
+ });
+
+ renderAdmin();
 }
 
-// --- SPILLERE ---
-function addPlayer() {
-  const name = el("name").value;
-
-  if (!name) {
-    showToast("Skriv navn", "warn");
-    return;
-  }
-
-  const id = "player_" + Date.now();
-
-  write("players/" + id, {
-    name: name,
-    order: Date.now()
-  }, true);
-
-  el("name").value = "";
+function renderAdmin(){
+ let a=document.getElementById("adminPlayers");
+ a.innerHTML="";
+ Object.entries(players).forEach(([id,p])=>{
+  let d=document.createElement("div");
+  d.textContent=p.name+" "+getProgress(id)+"%";
+  a.appendChild(d);
+ });
 }
 
-// --- RENDER ---
-function renderPlayers() {
-  const select = el("playerSelect");
-  if (!select) return;
-
-  select.innerHTML = "";
-
-  Object.entries(players).forEach(([id, p]) => {
-    const opt = document.createElement("option");
-    opt.value = id;
-    opt.textContent = p.name;
-    select.appendChild(opt);
-  });
-}
-
-// --- INIT ---
-if (auth) {
-
-  auth.onAuthStateChanged(user => {
-    currentUser = user;
-    updateAdminStatus();
-  });
-
-  auth.signInAnonymously();
-}
-
-if (db) {
-
-  setStatus("Kobler til Firebase...");
-
-  db.ref("admins").on("value", snap => {
-    admins = snap.val() || {};
-    updateAdminStatus();
-  });
-
-  db.ref("players").on("value", snap => {
-    players = snap.val() || {};
-    renderPlayers();
-  });
-
-  db.ref(".info/connected").on("value", snap => {
-    setStatus(
-      snap.val()
-        ? "✅ Firebase tilkoblet"
-        : "⚠️ Ikke kontakt med Firebase",
-      snap.val() ? "ok" : "warn"
-    );
-  });
-}
+render();

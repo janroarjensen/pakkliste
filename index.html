@@ -1,147 +1,22 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#176b4d" />
-  <title>Pakkliste Lag-NM Golf V6</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pakkliste V6 FIX</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>🏌️‍♀️ Pakkliste Lag-NM Golf</h1>
-      <p>V6 • Full admin • PIN • spillerlenker • offline</p>
-    </div>
-    <button id="adminJumpBtn" class="secondary">Admin</button>
-  </header>
+<header style="display:flex;justify-content:space-between;align-items:center">
+<h1>Pakkliste</h1>
+<button class="secondary" onclick="document.getElementById('adminPanel').scrollIntoView({behavior:'smooth'})">Admin</button>
+</header>
 
-  <main class="container">
-    <section id="statusBox" class="status">Starter app...</section>
+<div id="adminPanel" style="margin-top:800px;border:1px solid #ccc;padding:20px">
+<h2>Admin Panel</h2>
+<p>Her ligger admin</p>
+</div>
 
-    <section id="directLinkBox" class="direct hidden">
-      <div>
-        <strong>Spillerlenke aktiv</strong><br>
-        <span>Du ser direkte pakkliste for valgt spiller.</span>
-      </div>
-      <button id="showAllPlayersBtn" class="secondary small">Vis alle spillere</button>
-    </section>
-
-    <section class="card hero">
-      <div>
-        <h2>Velg spiller</h2>
-        <p>Kryss av etter hvert som spilleren pakker. Endringer lagres i Firebase og fungerer offline.</p>
-      </div>
-      <select id="playerSelect"></select>
-    </section>
-
-    <section id="playerSummary" class="card summary"></section>
-
-    <section class="card">
-      <div class="sectionTitle">
-        <h2>Pakkliste</h2>
-        <div class="buttonRow">
-          <button id="copyCurrentLinkBtn" class="secondary small">Kopier spillerlenke</button>
-          <button id="lockPlayerBtn" class="secondary small">Lås PIN</button>
-          <button id="markAllBtn" class="secondary small">Merk alt pakket</button>
-          <button id="syncBtn" class="secondary small">Synk nå</button>
-        </div>
-      </div>
-      <div id="checklist" class="checklist"></div>
-    </section>
-
-    <section id="adminPanel" class="card admin">
-      <div class="sectionTitle">
-        <div>
-          <h2>🔐 Admin-panel</h2>
-          <p id="uidInfo" class="hint"></p>
-        </div>
-        <button id="logoutBtn" class="danger small">Logg ut</button>
-      </div>
-
-      <div id="loginBox" class="adminLogin">
-        <p>Logg inn med Firebase Authentication for admin. Spillere/foreldre kan bruke appen anonymt.</p>
-        <div class="loginGrid">
-          <input id="emailInput" type="email" placeholder="Admin e-post" autocomplete="username" />
-          <input id="passwordInput" type="password" placeholder="Passord" autocomplete="current-password" />
-          <button id="emailLoginBtn">Logg inn admin</button>
-          <button id="anonLoginBtn" class="secondary">Bruk uten admin</button>
-        </div>
-        <p class="hint">Admin styres med UID i Firebase under <code>/admins/{uid}: true</code>.</p>
-      </div>
-
-      <div id="notAdminBox" class="notice hidden">
-        Du er innlogget, men UID-en din er ikke satt som admin. Kopier UID-en over og legg den under <code>/admins/UID = true</code> i Firebase.
-      </div>
-
-      <div id="adminTools" class="hidden">
-        <div class="adminGrid">
-          <div class="adminBlock">
-            <h3>Spillere</h3>
-            <div class="row threeCols">
-              <input id="newPlayerName" placeholder="Navn på spiller" />
-              <input id="newPlayerPin" placeholder="PIN" />
-              <button id="addPlayerBtn">Legg til</button>
-            </div>
-            <div class="buttonRow mtSmall">
-              <button id="generateNewPinBtn" class="secondary small">Lag ny PIN</button>
-              <button id="copyAllLinksBtn" class="secondary small">Kopier alle lenker</button>
-            </div>
-            <p class="hint">Tips: PIN genereres automatisk hvis feltet står tomt.</p>
-            <div id="adminPlayers" class="adminList"></div>
-          </div>
-
-          <div class="adminBlock">
-            <h3>Pakkeliste-punkter</h3>
-            <div class="row">
-              <input id="newItemName" placeholder="Nytt punkt" />
-              <button id="addItemBtn">Legg til</button>
-            </div>
-            <div id="adminItems" class="adminList"></div>
-          </div>
-        </div>
-
-        <div class="adminBlock mt">
-          <h3>Admin UID-er</h3>
-          <div class="row">
-            <input id="newAdminUid" placeholder="Lim inn UID" />
-            <button id="addAdminUidBtn">Legg til admin</button>
-          </div>
-          <div id="adminUidList" class="adminList"></div>
-        </div>
-
-        <div class="adminBlock mt">
-          <h3>Verktøy</h3>
-          <div class="buttonRow">
-            <button id="resetSelectedBtn" class="warning">Nullstill valgt spiller</button>
-            <button id="resetAllBtn" class="danger">Nullstill alle avkrysninger</button>
-            <button id="seedBtn" class="secondary">Legg inn standardliste</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div id="pinModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modalCard">
-      <h2>🔒 Skriv PIN</h2>
-      <p id="pinModalText">Denne pakkelisten er beskyttet med PIN.</p>
-      <input id="pinInput" inputmode="numeric" autocomplete="one-time-code" placeholder="PIN" />
-      <div class="buttonRow">
-        <button id="pinOkBtn">Åpne</button>
-        <button id="pinCancelBtn" class="secondary">Avbryt</button>
-      </div>
-      <p class="hint">PIN huskes på denne enheten til du trykker “Lås PIN”.</p>
-    </div>
-  </div>
-
-  <footer>Lag-NM Golf • GitHub Pages + Firebase • Offline-cache aktiv</footer>
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script src="firebase.js"></script>
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

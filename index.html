@@ -1,31 +1,130 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pakkliste V14</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pakkliste Lag-NM Golf - V15</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Pakkliste</h1>
-<button onclick="toggleAdmin()">Admin</button>
+<header class="topbar">
+  <div>
+    <h1>🏌️ Pakkliste Lag-NM</h1>
+    <p>Firebase produksjon • admin • import/export • progress • redigering</p>
+  </div>
+  <button onclick="toggleAdmin()">Admin</button>
+</header>
 
-<div id="adminPanel" class="hidden">
-<h2>Admin</h2>
-<input id="name" placeholder="Navn">
-<button onclick="addPlayer()">Legg til</button>
+<main class="container">
+  <div id="status" class="status">Starter app...</div>
+  <div id="toast" class="toast hidden"></div>
 
-<h3>Pakkeliste (rediger)</h3>
-<textarea id="importBox"></textarea>
-<button onclick="importText()">Importer</button>
-<button onclick="exportData()">Export</button>
+  <section id="directBox" class="direct hidden">
+    <div>
+      <strong>Spillerlenke aktiv</strong><br>
+      <span>Du ser direkte pakkeliste for valgt spiller.</span>
+    </div>
+    <button onclick="showAllPlayers()">Vis alle spillere</button>
+  </section>
 
-<div id="adminItems"></div>
+  <section class="card">
+    <h2>Spillere</h2>
+    <select id="playerSelect" onchange="selectPlayer()"></select>
+    <div id="playerInfo" class="playerInfo"></div>
+  </section>
+
+  <section class="card">
+    <div class="sectionHeader">
+      <h2>Pakkliste</h2>
+      <div class="buttonRow">
+        <button onclick="copySelectedPlayerLink()">Kopier spillerlenke</button>
+        <button onclick="lockSelectedPin()">Lås PIN</button>
+      </div>
+    </div>
+    <div id="packingList"></div>
+  </section>
+
+  <section id="adminPanel" class="card admin hidden">
+    <div class="sectionHeader">
+      <div>
+        <h2>🔐 Admin</h2>
+        <div id="authInfo" class="hint">Sjekker innlogging...</div>
+      </div>
+      <button class="secondary" onclick="logoutAdmin()">Logg ut</button>
+    </div>
+
+    <div id="loginBox" class="loginBox">
+      <h3>Admin-innlogging</h3>
+      <p class="hint">Logg inn med Firebase Authentication. UID-en må ligge under <code>/admins/UID = true</code> i Realtime Database.</p>
+      <input id="emailInput" type="email" placeholder="Admin e-post">
+      <input id="passwordInput" type="password" placeholder="Passord">
+      <div class="buttonRow">
+        <button onclick="loginAdmin()">Logg inn admin</button>
+        <button class="secondary" onclick="loginAnon()">Bruk uten admin</button>
+      </div>
+    </div>
+
+    <div id="notAdminBox" class="notice hidden">
+      Du er innlogget, men denne UID-en er ikke admin. Kopier UID-en fra feltet over og legg den inn i Firebase under <code>admins/UID = true</code>.
+    </div>
+
+    <div id="adminTools" class="hidden">
+      <div class="adminGrid">
+        <div>
+          <h3>Legg til spiller</h3>
+          <input id="name" placeholder="Navn på spiller">
+          <input id="pin" placeholder="PIN (valgfritt)">
+          <button onclick="addPlayer()">Legg til spiller</button>
+        </div>
+
+        <div>
+          <h3>Legg til pakkepunkt</h3>
+          <input id="newItem" placeholder="F.eks. Badetøy">
+          <button onclick="addItem()">Legg til punkt</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Import / Export</h3>
+      <textarea id="importBox" placeholder="Lim inn pakkepunkter, ett per linje. Du kan også lime inn JSON backup fra Export."></textarea>
+      <div class="buttonRow">
+        <button onclick="importTextList()">Importer tekstliste</button>
+        <button onclick="importJSONBackup()">Importer JSON backup</button>
+        <button onclick="exportData()">Export JSON</button>
+        <button class="secondary" onclick="copyAllLinks()">Kopier alle spillerlenker</button>
+        <button class="secondary" onclick="seedDefaultItemsIfEmpty(true)">Legg inn standardliste</button>
+      </div>
+
+      <h3>Admin - spillere og progress</h3>
+      <div id="adminPlayers"></div>
+
+      <h3>Admin - pakkeliste (rediger)</h3>
+      <p class="hint">Endre teksten i feltet og trykk Lagre. Slett fjerner pakkepunktet fra listen.</p>
+      <div id="adminItems"></div>
+    </div>
+  </section>
+</main>
+
+<div id="pinModal" class="modal hidden">
+  <div class="modalCard">
+    <h2>🔒 Skriv PIN</h2>
+    <p id="pinText">Denne spillerlisten er beskyttet med PIN.</p>
+    <input id="pinInput" inputmode="numeric" placeholder="PIN">
+    <div class="buttonRow">
+      <button onclick="unlockPin()">Åpne</button>
+      <button class="secondary" onclick="closePinModal()">Avbryt</button>
+    </div>
+    <p class="hint">PIN huskes på denne enheten til du trykker “Lås PIN”.</p>
+  </div>
 </div>
 
-<div id="playerList"></div>
-<footer id="version"></footer>
+<footer id="appVersion" class="version"></footer>
 
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

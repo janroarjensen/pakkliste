@@ -1,4 +1,4 @@
-# Pakkliste Lag-NM Golf - Firebase Produksjon v1.3.0
+# Pakkliste Lag-NM Golf - V15 Firebase Edit
 
 ## Filer som skal ligge i GitHub root
 - index.html
@@ -17,13 +17,10 @@
 3. Realtime Database → Rules → lim inn database.rules.json.
 4. Realtime Database → Data → importer seed-admins.json, eller legg inn egen UID under /admins.
 
-## Funksjoner
-- Firebase sync
-- Admin via UID
-- PIN per spiller
-- Spillerlenker
-- Import tekstliste
-- Import JSON backup
-- Export JSON backup
-- Progress bar per spiller i Admin
-- Versjonsnummer i footer fra app.js
+## Nytt i v1.5.0
+- Redigering av pakkepunkter i admin
+- Lagre/slett pakkepunkter
+- Firebase sync beholdt
+- Progress bar per spiller i admin
+- Import/export beholdt
+- Versjon i footer fra app.js

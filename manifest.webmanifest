@@ -1,0 +1,9 @@
+{
+  "name": "Pakkliste Lag-NM Golf",
+  "short_name": "Lag-NM Pakkliste",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#176b4d",
+  "icons": []
+}

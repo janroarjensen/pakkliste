@@ -1,0 +1,5 @@
+body{font-family:Arial;padding:20px}
+.topbar{display:flex;justify-content:space-between}
+button{padding:10px;background:#176b4d;color:white;border:none;border-radius:8px}
+.hidden{display:none}
+#adminPanel{margin-top:20px;border:1px solid #ccc;padding:15px;border-radius:10px}

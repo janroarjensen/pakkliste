@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakkliste V6 Clean</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>🏌️ Pakkliste Lag-NM</h1>
+  <button onclick="toggleAdmin()">Admin</button>
+</header>
+
+<main>
+  <h2>Spillere</h2>
+  <div id="playerList"></div>
+
+  <div id="adminPanel" class="hidden">
+    <h2>🔐 Admin</h2>
+
+    <input id="name" placeholder="Navn">
+    <input id="pin" placeholder="PIN">
+    <button onclick="addPlayer()">Legg til spiller</button>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

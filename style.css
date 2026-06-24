@@ -3,3 +3,7 @@ body{font-family:Arial;padding:20px}
 .bar{background:#ddd;height:10px;width:200px;border-radius:6px}
 .fill{background:#176b4d;height:10px}
 textarea{width:100%;height:80px}
+.buttonRow{display:flex;gap:10px;margin-top:5px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 15px;border-radius:10px;background:#176b4d;color:#fff}
+.toast.warn{background:#c62828}
+.version{text-align:center;margin-top:30px;font-size:0.8rem;color:#888}

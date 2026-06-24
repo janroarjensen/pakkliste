@@ -3,27 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pakkliste PRO V11</title>
+<title>Pakkliste PRO V12</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <h1>Pakkliste</h1>
 <button onclick="toggleAdmin()">Admin</button>
 
 <div id="adminPanel" class="hidden">
-<h2>Admin</h2>
-<input id="name" placeholder="Navn">
-<button onclick="addPlayer()">Legg til spiller</button>
+  <h2>Admin</h2>
 
-<h3>Importer pakkeliste</h3>
-<textarea id="importBox" placeholder="En per linje..."></textarea>
-<button onclick="importText()">Importer</button>
-<button onclick="exportData()">Export</button>
+  <input id="name" placeholder="Navn">
+  <button onclick="addPlayer()">Legg til spiller</button>
 
-<div id="adminPlayers"></div>
+  <h3>Importer pakkeliste</h3>
+  <textarea id="importBox" placeholder="En per linje..."></textarea>
+
+  <div class="buttonRow">
+    <button onclick="importText()">Importer</button>
+    <button onclick="exportData()">Export</button>
+  </div>
+
+  <div id="adminPlayers"></div>
 </div>
 
 <div id="playerList"></div>
+
+<footer id="appVersion" class="version"></footer>
+
+<div id="toast" class="toast hidden"></div>
 
 <script src="app.js"></script>
 </body>

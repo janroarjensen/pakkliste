@@ -5,10 +5,12 @@ const firebaseConfig = {
   databaseURL: "https://studio-518888538-b7e26-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
-// Initialiser Firebase
-firebase.initializeApp(firebaseConfig);
+let db = null;
 
-// Global database variabel
-const db = firebase.database();
-
-console.log("✅ Firebase koblet til");
+try {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+  console.log("✅ Firebase koblet til");
+} catch (error) {
+  console.error("❌ Firebase-feil:", error);
+}

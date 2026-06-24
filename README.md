@@ -1,94 +1,35 @@
-# Pakkliste Lag-NM Golf V6
+# Pakkliste Lag-NM Golf - Firebase stabil
 
-Denne pakken er klar for GitHub Pages + Firebase.
+Dette er neste steg etter clean-versjonen der Admin-knappen fungerer.
 
-## Filer og hvor de skal ligge
+## Filer til GitHub
+Legg disse i root/samme mappe:
 
-### GitHub repo - root / toppnivå
-Disse filene skal ligge rett i repoet, samme sted som `index.html`:
+- index.html
+- app.js
+- style.css
+- firebase.js
 
-```text
-index.html
-style.css
-app.js
-firebase.js
-manifest.webmanifest
-service-worker.js
-README.md
-```
+## Firebase
+Lim inn `database.rules.json` i:
+Firebase Console → Realtime Database → Rules
 
-Eksempel:
-
-```text
-pakkliste-lagnm/
-├── index.html
-├── style.css
-├── app.js
-├── firebase.js
-├── manifest.webmanifest
-├── service-worker.js
-└── README.md
-```
-
-### Firebase Console - Realtime Database → Rules
-Innholdet fra denne fila limes inn under Rules:
-
-```text
-database.rules.json
-```
-
-### Firebase Console - Realtime Database → Data
-Dette er datafiler som kan importeres i Firebase:
-
-```text
-seed-admins.json
-seed-example-data.json
-```
-
-- `seed-admins.json` inneholder bare admin UID-er.
-- `seed-example-data.json` inneholder admin UID-er, eksempelspillere og eksempel-pakkeliste.
-
-## Firebase-oppsett
-
-1. Opprett eller åpne Firebase-prosjektet.
-2. Gå til Authentication → Sign-in method.
-3. Aktiver Email/Password.
-4. Aktiver Anonymous.
-5. Gå til Realtime Database.
-6. Opprett database hvis den ikke finnes.
-7. Lim inn rules fra `database.rules.json`.
-8. Importer `seed-admins.json` under Data, eller legg inn admin manuelt:
-
+Dette er åpne testregler:
 ```json
 {
-  "admins": {
-    "DIN_UID": true
+  "rules": {
+    ".read": true,
+    ".write": true
   }
 }
 ```
 
-## GitHub Pages
+## Viktig
+Admin-knappen bruker fortsatt enkel `onclick="toggleAdmin()"` og er ikke avhengig av Firebase.
 
-1. Last opp alle GitHub-filene i root.
-2. Gå til Settings → Pages.
-3. Velg branch `main` og folder `/root`.
-4. Åpne GitHub Pages-lenken.
-
-## Admin
-
-Admin-bruker må være opprettet i Firebase Authentication med Email/Password.
-Etter innlogging må UID ligge under `/admins` i Realtime Database.
-
-## Spillerlenke
-
-Appen lager lenker slik:
-
-```text
-https://din-side.no/index.html?spiller=PLAYER_ID
-```
-
-I admin-panelet kan du kopiere én spillerlenke eller alle lenker med PIN.
-
-## Viktig om PIN
-
-PIN beskytter i brukergrensesnittet og er praktisk for foreldre/juniorer. PIN ligger i Realtime Database sammen med spillerdata, så dette er ikke bank-sikkerhet. For dette formålet gir det enkel og fin kontroll på at foreldre/juniorer åpner riktig liste.
+## Test
+1. Last opp filene til GitHub
+2. Åpne GitHub Pages
+3. Trykk Admin
+4. Legg til spiller
+5. Sjekk at spilleren dukker opp i Firebase Realtime Database
